@@ -1,0 +1,27 @@
+<?mapping version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--启用缓存-->
+        <!--<setting name="cacheEnabled" value="true"/>-->
+        <!--允许JDBC支持生成的键-->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!--延迟加载，关联对象延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+    </settings>
+    <!--别名配置-->
+    <typeAliases>
+        <package name="com.dream.pojo"/>
+    </typeAliases>
+    <!--指定映射器路径-->
+    <mappers>
+        <!--使用mapper接口类路径，此种方法要求mapper接口名称和mapper映射文件名称相同，且放在同一个目录中-->
+        <!--<mapper class=""/>-->
+        <!--注册指定包下的所有mapper接口，此种方法要求mapper接口名称和mapper映射文件名称相同，且放在同一个目录中-->
+        <!--<package name="com.dream.mapper"/>-->
+        <mapper resource="com/dream/mapper/RedPacketMapper.xml"/>
+        <mapper resource="com/dream/mapper/UserRedPacketMapper.xml"/>
+    </mappers>
+</configuration>

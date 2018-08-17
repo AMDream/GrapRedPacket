@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.dao.RedPacketMapper">
+    <resultMap id="BaseResultMap" type="com.dream.pojo.RedPacket">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="amount" jdbcType="INTEGER" property="amount"/>
+        <result column="send_date" jdbcType="TIMESTAMP" property="sendDate"/>
+        <result column="total" jdbcType="INTEGER" property="total"/>
+        <result column="unit_amount" jdbcType="INTEGER" property="unitAmount"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, amount, send_date, total, unit_amount, stock, version, note
+    </sql>
+    <update id="decreaseRedPacket">
+        update t_red_packet set stock = stock - 1
+        where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from t_red_packet
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--使用行级锁-->
+    <select id="getRedPacketForUpdate" parameterType="int" resultMap="BaseResultMap">
+        select * from t_red_packet
+        where id = #{id} for update
+    </select>
+    <!--使用乐观锁-->
+    <update id="decreaseRedPacketForVersion" >
+        update t_red_packet
+        set stock = stock - 1,version = version + 1
+        where id = #{id}
+        and version = #{version}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_red_packet
+    where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.dream.pojo.RedPacket">
+    insert into t_red_packet (id, user_id, amount, 
+      send_date, total, unit_amount, 
+      stock, version, note)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER},
+      #{sendDate,jdbcType=TIMESTAMP}, #{total,jdbcType=INTEGER}, #{unitAmount,jdbcType=INTEGER},
+      #{stock,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.dream.pojo.RedPacket">
+        update t_red_packet
+        set user_id = #{userId,jdbcType=INTEGER},
+        amount = #{amount,jdbcType=INTEGER},
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+        total = #{total,jdbcType=INTEGER},
+        unit_amount = #{unitAmount,jdbcType=INTEGER},
+        stock = #{stock,jdbcType=INTEGER},
+        version = #{version,jdbcType=INTEGER},
+        note = #{note,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <insert id="insertSelective" parameterType="com.dream.pojo.RedPacket">
+        insert into t_red_packet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="sendDate != null">
+                send_date,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+            <if test="unitAmount != null">
+                unit_amount,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=INTEGER},
+            </if>
+            <if test="sendDate != null">
+                #{sendDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="total != null">
+                #{total,jdbcType=INTEGER},
+            </if>
+            <if test="unitAmount != null">
+                #{unitAmount,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dream.pojo.RedPacket">
+        update t_red_packet
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=INTEGER},
+            </if>
+            <if test="sendDate != null">
+                send_date = #{sendDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="total != null">
+                total = #{total,jdbcType=INTEGER},
+            </if>
+            <if test="unitAmount != null">
+                unit_amount = #{unitAmount,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+            <if test="note != null">
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
